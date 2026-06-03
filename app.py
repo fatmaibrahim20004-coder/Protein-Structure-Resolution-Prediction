@@ -1,6 +1,6 @@
 import streamlit as st
 import joblib
-import requests
+import gdown
 import os
 import numpy as np
 
@@ -11,14 +11,9 @@ output = 'best_random_forest_model.pkl'
 @st.cache_resource
 def load_model():
     if not os.path.exists(output):
-        st.write("upload the model")
-        response = requests.get(url, stream=True)
-        with open(output, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, output, quiet=False)
     return joblib.load(output)
-
 try:
     model = load_model()
     st.success("sucessfly")
