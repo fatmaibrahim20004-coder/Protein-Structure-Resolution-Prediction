@@ -4,6 +4,8 @@ This project is a Machine Learning web application that predicts protein structu
 *The model is deployed using Streamlit Cloud.
 ## Aplication link:
 https://protein-structure-resolution-prediction-ufkrnsjxpt99g9yjdmjxlb.streamlit.app/
+ ## presentation video:
+ https://drive.google.com/file/d/1czdzlJisSnPN3Q3huF19bs8LquikgkYg/view?usp=drive_link
  ## Features
 * Interactive sliders for input parameters
 * Real-time prediction using trained ML model
