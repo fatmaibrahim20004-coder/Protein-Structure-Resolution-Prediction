@@ -1,23 +1,35 @@
 import streamlit as st
 import joblib
-from huggingface_hub import hf_hub_download
+import requests
+import os
+import numpy as np 
 
-# Repository details and filename
-REPO_ID = "7777jnjsd/protein-model"
-FILENAME = "best_random_forest_model.pkl"
+# Direct link to your model on Hugging Face
+MODEL_URL = "https://huggingface.co/7777jnjsd/protein-model/resolve/main/best_random_forest_model.pkl"
+LOCAL_FILE = "model.pkl"
 
-@st.cache_resource
-def load_model():
-    # Downloading the model safely from Hugging Face
-    model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
-    return joblib.load(model_path)
+st.title("Protein Structure Resolution Prediction")
+st.write("Welcome! This application predicts protein structure resolution using a Random Forest model.")
 
-# Loading the model
-try:
-    model = load_model()
-    st.success("Model loaded successfully from Hugging Face!")
-except Exception as e:
-    st.error(f"Error loading the model: {e}")
+# Load the model only when requested to avoid deployment timeout
+if st.button("Start Model Analysis"):
+    with st.spinner("Downloading model from server... please wait."):
+        try:
+            if not os.path.exists(LOCAL_FILE):
+                response = requests.get(MODEL_URL)
+                response.raise_for_status() # Check for download errors
+                with open(LOCAL_FILE, "wb") as f:
+                    f.write(response.content)
+            
+            # Load the model
+            model = joblib.load(LOCAL_FILE)
+            st.success("Model loaded successfully!")
+            
+            # Add your prediction logic here
+            st.write("Model is ready for predictions.")
+            
+        except Exception as e:
+            st.error(f"An error occurred while loading the model: {e}")
 
 
 
