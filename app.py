@@ -76,7 +76,7 @@ if st.button(" Predict Resolution"):
 
 
 
-model = joblib.load("best_random_forest_model.pkl")
+
 scaler = joblib.load("scaler.pkl")
 columns = joblib.load("model_columns.pkl")
 
